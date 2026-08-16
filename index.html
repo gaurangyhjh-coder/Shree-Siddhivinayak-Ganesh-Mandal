@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shree Siddhivinayak Ganesh Mitra Mandal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <nav>
+    <div class="logo">🙏 Siddhivinayak Mandal</div>
+    <button class="menu" onclick="toggleMenu()">☰</button>
+    <div id="navlinks">
+      <a href="#home">Home</a><a href="#events">Events</a><a href="#vargani">Vargani</a>
+      <a href="#aarti">Aarti</a><a href="#gallery">Gallery</a><a href="#login">Member Login</a>
+    </div>
+  </nav>
+  <div class="hero-content" id="home">
+    <div class="ganesh">ॐ</div>
+    <p class="tag">गणपती बाप्पा मोरया! 🙏</p>
+    <h1>Shree Siddhivinayak<br>Ganesh Mitra Mandal</h1>
+    <p>Celebrating devotion, unity and community together.</p>
+    <div class="buttons">
+      <a class="btn primary" href="#events">View Programs</a>
+      <a class="btn" href="#vargani">Vargani / Donation</a>
+    </div>
+  </div>
+</header>
+
+<main>
+<section class="section" id="events">
+  <h2>📅 Upcoming Programs</h2>
+  <div class="cards" id="eventCards"></div>
+</section>
+
+<section class="section alt" id="vargani">
+  <h2>💰 Vargani / Donation</h2>
+  <div class="donation-box">
+    <p>Support the mandal's Ganesh Utsav activities.</p>
+    <div class="upi">UPI ID: <strong id="upiId">yourmandal@upi</strong></div>
+    <p class="small">Replace the demo UPI ID in <code>script.js</code> with your real mandal UPI ID before publishing.</p>
+    <button class="btn primary" onclick="copyUPI()">Copy UPI ID</button>
+    <span id="copyMsg"></span>
+  </div>
+</section>
+
+<section class="section" id="aarti">
+  <h2>🪔 Aarti Timings</h2>
+  <div class="cards">
+    <div class="card"><h3>Morning Aarti</h3><p>7:00 AM</p></div>
+    <div class="card"><h3>Evening Aarti</h3><p>7:30 PM</p></div>
+    <div class="card"><h3>Special Aarti</h3><p>On festival days</p></div>
+  </div>
+</section>
+
+<section class="section alt" id="gallery">
+  <h2>📸 Gallery</h2>
+  <div class="gallery">
+    <div class="placeholder">Ganpati Photo</div>
+    <div class="placeholder">Mandal Photo</div>
+    <div class="placeholder">Utsav Photo</div>
+  </div>
+  <p class="small">Replace these placeholders with your own mandal photos in <code>script.js</code>.</p>
+</section>
+
+<section class="section" id="login">
+  <h2>👥 Member Login</h2>
+  <div class="login-box">
+    <input id="memberName" placeholder="Member name">
+    <input id="memberPin" type="password" placeholder="Demo PIN">
+    <button class="btn primary" onclick="login()">Login</button>
+    <p id="loginMsg"></p>
+  </div>
+</section>
+
+<section class="section notice" id="notices">
+  <h2>🔔 Announcements</h2>
+  <ul id="noticeList"></ul>
+</section>
+</main>
+
+<footer>
+  <h3>Shree Siddhivinayak Ganesh Mitra Mandal</h3>
+  <p>Ganpati Bappa Morya! 🙏</p>
+  <p class="small">Demo website — customize with your mandal's real details.</p>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
