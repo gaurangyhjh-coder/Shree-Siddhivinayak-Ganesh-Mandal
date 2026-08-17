@@ -1,1 +1,1 @@
-function donationMessage(){document.getElementById('message').textContent='UPI and donation details will be added here when you provide them.';}
+// Reserved for future website features.
