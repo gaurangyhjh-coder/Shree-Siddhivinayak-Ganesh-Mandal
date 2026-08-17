@@ -81,6 +81,51 @@
 
       <div id="donationsList"></div>
     </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <h2>🪔 Aarti</h2>
+        <button id="newAartiBtn">+ Set Aarti</button>
+      </div>
+      <form id="aartiForm" class="hidden formGrid">
+        <input type="hidden" id="aartiId">
+        <label>Person / Family<input id="aartiPerson" required></label>
+        <label>Date<input id="aartiDate" type="date" required></label>
+        <label>Time<input id="aartiTime" type="time"></label>
+        <label class="full">Notes<textarea id="aartiNotes" rows="2"></textarea></label>
+        <div class="actions full">
+          <button type="submit">Save Aarti</button>
+          <button type="button" id="cancelAartiBtn" class="secondary">Cancel</button>
+        </div>
+        <p id="aartiMsg" class="msg full"></p>
+      </form>
+      <div id="aartiList"></div>
+    </section>
+
+    <section class="card">
+      <div class="sectionHead">
+        <h2>🛒 Expenses</h2>
+        <button id="newExpenseBtn">+ Add Expense</button>
+      </div>
+      <div class="balance">
+        <div><span>Total Vargani</span><strong id="totalCollected">₹0.00</strong></div>
+        <div><span>Total Expenses</span><strong id="totalSpent">₹0.00</strong></div>
+        <div><span>Remaining</span><strong id="remainingBalance">₹0.00</strong></div>
+      </div>
+      <form id="expenseForm" class="hidden formGrid">
+        <input type="hidden" id="expenseId">
+        <label>Item<input id="expenseItem" required></label>
+        <label>Amount (₹)<input id="expenseAmount" type="number" min="0" step="0.01" required></label>
+        <label>Date<input id="expenseDate" type="date" required></label>
+        <label class="full">Notes<textarea id="expenseNotes" rows="2"></textarea></label>
+        <div class="actions full">
+          <button type="submit">Save Expense</button>
+          <button type="button" id="cancelExpenseBtn" class="secondary">Cancel</button>
+        </div>
+        <p id="expenseMsg" class="msg full"></p>
+      </form>
+      <div id="expensesList"></div>
+    </section>
   </main>
 </div>
 

@@ -59,7 +59,7 @@ $('eventForm').addEventListener('submit', async e => {
   e.preventDefault();
   const id = $('eventId').value;
   const row = {
-    title: $('eventTitle').value.trim(),
+    Title: $('eventTitle').value.trim(),
     description: $('eventDescription').value.trim(),
     event_date: $('eventDate').value,
     event_time: $('eventTime').value || null,
@@ -82,7 +82,7 @@ async function loadEvents(){
   box.innerHTML = data.map(x => `
     <div class="item">
       <div>
-        <h3>${esc(x.title)}</h3>
+        <h3>${esc(x.Title)}</h3>
         <p>📅 ${esc(x.event_date)} ${x.event_time ? ' · 🕐 '+esc(x.event_time) : ''}</p>
         ${x.location ? '<p>📍 '+esc(x.location)+'</p>' : ''}
         ${x.description ? '<p>'+esc(x.description)+'</p>' : ''}
@@ -97,7 +97,7 @@ async function loadEvents(){
 window.editEvent = async id => {
   const {data,error} = await sb.from('events').select('*').eq('id',id).single();
   if(error){ alert(error.message); return; }
-  $('eventId').value=data.id; $('eventTitle').value=data.title||'';
+  $('eventId').value=data.id; $('eventTitle').value=data.Title||'';
   $('eventDescription').value=data.description||''; $('eventDate').value=data.event_date||'';
   $('eventTime').value=data.event_time||''; $('eventLocation').value=data.location||'';
   show($('eventForm'), true); window.scrollTo({top:0,behavior:'smooth'});
@@ -136,8 +136,9 @@ async function loadDonations(){
   const box=$('donationsList'); box.innerHTML='<p>Loading donations...</p>';
   const {data,error}=await sb.from('vargani').select('*').order('donation_date',{ascending:false}).order('created_at',{ascending:false});
   if(error){box.innerHTML='<p class="msg">'+esc(error.message)+'</p>';return;}
-  if(!data.length){box.innerHTML='<p>No donations recorded yet.</p>';return;}
+  if(!data.length){box.innerHTML='<p>No donations recorded yet.</p>'; $('totalCollected').textContent='₹0.00'; return;}
   const total=data.reduce((s,x)=>s+Number(x.amount||0),0);
+  $('totalCollected').textContent='₹'+total.toFixed(2);
   box.innerHTML='<p><strong>Total recorded: ₹'+total.toFixed(2)+'</strong></p>'+data.map(x=>`
     <div class="item">
       <div><h3>${esc(x.donor_name)} — ₹${Number(x.amount||0).toFixed(2)}</h3>
@@ -160,4 +161,100 @@ window.deleteDonation=async id=>{
   if(error)alert(error.message);else await loadDonations();
 };
 
-sb.auth.getSession().then(() => requireAdmin());
+
+// ---------- Aarti ----------
+$('newAartiBtn').onclick=()=>{
+  $('aartiForm').reset(); $('aartiId').value=''; $('aartiDate').value=today();
+  show($('aartiForm'),true);
+};
+$('cancelAartiBtn').onclick=()=>show($('aartiForm'),false);
+
+$('aartiForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const id=$('aartiId').value;
+  const row={person:$('aartiPerson').value.trim(),aarti_date:$('aartiDate').value,
+             aarti_time:$('aartiTime').value||null,notes:$('aartiNotes').value.trim()};
+  const q=id?sb.from('aarti').update(row).eq('id',id):sb.from('aarti').insert(row);
+  const {error}=await q;
+  $('aartiMsg').textContent=error?error.message:'Aarti saved.';
+  if(!error){show($('aartiForm'),false);await loadAarti();}
+});
+async function loadAarti(){
+  const box=$('aartiList'); box.innerHTML='<p>Loading Aarti...</p>';
+  const {data,error}=await sb.from('aarti').select('*').order('aarti_date',{ascending:true}).order('aarti_time',{ascending:true});
+  if(error){box.innerHTML='<p class="msg">'+esc(error.message)+'</p>';return;}
+  if(!data.length){box.innerHTML='<p>No Aarti entries yet.</p>';return;}
+  box.innerHTML=data.map(x=>`
+    <div class="item"><div><h3>${esc(x.person)}</h3>
+      <p>📅 ${esc(x.aarti_date)}${x.aarti_time?' · 🕐 '+esc(x.aarti_time):''}</p>
+      ${x.notes?'<p>'+esc(x.notes)+'</p>':''}</div>
+      <div class="itemActions"><button onclick="editAarti('${x.id}')">Edit</button><button class="secondary" onclick="deleteAarti('${x.id}')">Delete</button></div>
+    </div>`).join('');
+}
+window.editAarti=async id=>{
+  const {data,error}=await sb.from('aarti').select('*').eq('id',id).single();
+  if(error){alert(error.message);return;}
+  $('aartiId').value=data.id;$('aartiPerson').value=data.person||'';$('aartiDate').value=data.aarti_date||'';
+  $('aartiTime').value=data.aarti_time||'';$('aartiNotes').value=data.notes||'';show($('aartiForm'),true);
+};
+window.deleteAarti=async id=>{
+  if(!confirm('Delete this Aarti entry?'))return;
+  const {error}=await sb.from('aarti').delete().eq('id',id);
+  if(error)alert(error.message);else await loadAarti();
+};
+
+// ---------- Expenses ----------
+$('newExpenseBtn').onclick=()=>{
+  $('expenseForm').reset();$('expenseId').value='';$('expenseDate').value=today();show($('expenseForm'),true);
+};
+$('cancelExpenseBtn').onclick=()=>show($('expenseForm'),false);
+$('expenseForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const id=$('expenseId').value;
+  const row={item:$('expenseItem').value.trim(),amount:Number($('expenseAmount').value),
+             expense_date:$('expenseDate').value,notes:$('expenseNotes').value.trim()};
+  const q=id?sb.from('expenses').update(row).eq('id',id):sb.from('expenses').insert(row);
+  const {error}=await q;
+  $('expenseMsg').textContent=error?error.message:'Expense saved.';
+  if(!error){show($('expenseForm'),false);await loadDonations();await loadExpenses();}
+});
+async function loadExpenses(){
+  const box=$('expensesList');box.innerHTML='<p>Loading expenses...</p>';
+  const {data,error}=await sb.from('expenses').select('*').order('expense_date',{ascending:false}).order('created_at',{ascending:false});
+  if(error){box.innerHTML='<p class="msg">'+esc(error.message)+'</p>';return;}
+  if(!data.length){box.innerHTML='<p>No expenses recorded yet.</p>'; $('totalSpent').textContent='₹0.00'; return;}
+  const total=data.reduce((s,x)=>s+Number(x.amount||0),0);
+  $('totalSpent').textContent='₹'+total.toFixed(2);
+  box.innerHTML=data.map(x=>`
+    <div class="item"><div><h3>${esc(x.item)} — ₹${Number(x.amount||0).toFixed(2)}</h3>
+      <p>📅 ${esc(x.expense_date)}</p>${x.notes?'<p>'+esc(x.notes)+'</p>':''}</div>
+      <div class="itemActions"><button onclick="editExpense('${x.id}')">Edit</button><button class="secondary" onclick="deleteExpense('${x.id}')">Delete</button></div>
+    </div>`).join('');
+}
+window.editExpense=async id=>{
+  const {data,error}=await sb.from('expenses').select('*').eq('id',id).single();
+  if(error){alert(error.message);return;}
+  $('expenseId').value=data.id;$('expenseItem').value=data.item||'';$('expenseAmount').value=data.amount??'';
+  $('expenseDate').value=data.expense_date||'';$('expenseNotes').value=data.notes||'';show($('expenseForm'),true);
+};
+window.deleteExpense=async id=>{
+  if(!confirm('Delete this expense?'))return;
+  const {error}=await sb.from('expenses').delete().eq('id',id);
+  if(error)alert(error.message);else await loadExpenses();
+};
+
+// Override the initial loader to include the new sections.
+const originalRequireAdmin = requireAdmin;
+async function requireAdminWithExtras(){
+  const user = await isAdmin();
+  if(!user){
+    await sb.auth.signOut(); show($('loginView'),true); show($('appView'),false);
+    $('loginMsg').textContent='This account is not an authorized admin.'; return null;
+  }
+  $('signedInAs').textContent='Signed in as '+user.email;
+  show($('loginView'),false); show($('appView'),true);
+  await loadEvents(); await loadDonations(); await loadAarti(); await loadExpenses();
+  return user;
+}
+
+sb.auth.getSession().then(() => requireAdminWithExtras());

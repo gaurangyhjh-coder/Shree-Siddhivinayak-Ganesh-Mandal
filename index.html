@@ -12,7 +12,7 @@
   <div class="brand">🙏 Shree Siddhivinayak Ganesh Mitra Mandal</div>
   <nav>
     <a href="#home">Home</a><a href="#about">About</a><a href="#programs">Programs</a>
-    <a href="#donation">Donation</a><a href="#contact">Contact</a><a href="admin.html">🔐 Admin</a>
+    <a href="#donation">Donation</a><a href="#aarti">Aarti</a><a href="#contact">Contact</a><a href="admin.html">🔐 Admin</a>
   </nav>
 </header>
 
@@ -35,6 +35,14 @@
   <h2>📅 Ganeshotsav Programs</h2>
   <div class="cards" id="events-list">
     <div class="card"><b>Loading programs...</b><p>Please wait.</p></div>
+  </div>
+</section>
+
+
+<section id="aarti" class="section">
+  <h2>🪔 Today's Aarti</h2>
+  <div class="cards" id="aarti-public-list">
+    <div class="card"><b>Loading Aarti...</b><p>Please wait.</p></div>
   </div>
 </section>
 
@@ -70,6 +78,18 @@ function escapeHtml(value) {
   }[c]));
 }
 
+
+async function loadPublicAarti() {
+  const container=document.getElementById("aarti-public-list");
+  const today = new Date().toISOString().slice(0,10);
+  const {data,error}=await supabaseClient.from("aarti").select("*").eq("aarti_date",today).order("aarti_time",{ascending:true});
+  if(error){console.error("Could not load Aarti:",error);container.innerHTML='<div class="card"><b>Aarti</b><p>Details will be announced.</p></div>';return;}
+  if(!data || !data.length){container.innerHTML='<div class="card"><b>Today’s Aarti will be announced soon.</b></div>';return;}
+  container.innerHTML=data.map(x=>`<div class="card"><b>🪔 ${escapeHtml(x.person)}</b>
+    ${x.aarti_time?`<p>🕐 ${escapeHtml(x.aarti_time)}</p>`:""}
+    ${x.notes?`<p>${escapeHtml(x.notes)}</p>`:""}</div>`).join("");
+}
+
 async function loadPublicEvents() {
   const container = document.getElementById("events-list");
   const { data, error } = await supabaseClient
@@ -96,7 +116,7 @@ async function loadPublicEvents() {
     const time = event.event_time ? " · " + escapeHtml(event.event_time) : "";
     return `
       <div class="card">
-        <b>${escapeHtml(event.title)}</b>
+        <b>${escapeHtml(event.Title)}</b>
         <p>📅 ${escapeHtml(date)}${time}</p>
         ${event.location ? `<p>📍 ${escapeHtml(event.location)}</p>` : ""}
         ${event.description ? `<p>${escapeHtml(event.description)}</p>` : ""}
@@ -105,6 +125,7 @@ async function loadPublicEvents() {
 }
 
 loadPublicEvents();
+loadPublicAarti();
 </script>
 </body>
 </html>
