@@ -78,7 +78,14 @@ function escapeHtml(value) {
   }[c]));
 }
 
-
+function formatTime12(time) {
+  if (!time) return "";
+  const [hours, minutes] = time.split(":");
+  const h = Number(hours);
+  const suffix = h >= 12 ? "PM" : "AM";
+  const hour12 = h % 12 || 12;
+  return ${hour12}:${minutes} ${suffix};
+}
 async function loadPublicAarti() {
   const container=document.getElementById("aarti-public-list");
   const today = new Date().toISOString().slice(0,10);
@@ -86,7 +93,7 @@ async function loadPublicAarti() {
   if(error){console.error("Could not load Aarti:",error);container.innerHTML='<div class="card"><b>Aarti</b><p>Details will be announced.</p></div>';return;}
   if(!data || !data.length){container.innerHTML='<div class="card"><b>Today’s Aarti will be announced soon.</b></div>';return;}
   container.innerHTML=data.map(x=>`<div class="card"><b>🪔 ${escapeHtml(x.person)}</b>
-    ${x.aarti_time?`<p>🕐 ${escapeHtml(x.aarti_time)}</p>`:""}
+    ${x.aarti_time?`<p>🕐 ${formatTime12(x.aarti_time)}</p>`:""}
     ${x.notes?`<p>${escapeHtml(x.notes)}</p>`:""}</div>`).join("");
 }
 
