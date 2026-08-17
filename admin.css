@@ -24,7 +24,9 @@ label{display:grid;gap:6px;font-weight:600}
 .itemActions button{padding:8px 10px}
 @media(max-width:650px){.formGrid{grid-template-columns:1fr}.full{grid-column:auto}.item{flex-direction:column}.itemActions{align-items:stretch}header{align-items:flex-start}}
 
-.balance{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
-.balance>div{background:#fff7e6;border:1px solid #eadfd4;border-radius:12px;padding:14px}
-.balance span{display:block;color:#6b5b4d;font-size:.9rem}.balance strong{display:block;font-size:1.25rem;margin-top:4px}
-@media(max-width:650px){.balance{grid-template-columns:1fr}}
+.balanceGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.balanceBox{background:#fff7e6;border:1px solid #eadfd4;border-radius:12px;padding:15px}
+.balanceBox span{display:block;color:#6b5b4d;font-size:.9rem}
+.balanceBox strong{display:block;font-size:1.35rem;margin-top:5px}
+.balanceBox.remaining{border:2px solid #7a1e12}
+@media(max-width:650px){.balanceGrid{grid-template-columns:1fr}}
