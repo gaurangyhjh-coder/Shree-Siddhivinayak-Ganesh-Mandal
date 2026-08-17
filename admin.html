@@ -7,90 +7,55 @@
 <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-<div id="login" class="panel">
+<section id="login" class="panel">
   <h1>🔐 Mandal Admin</h1>
   <p>Shree Siddhivinayak Ganesh Mitra Mandal</p>
   <form id="loginForm">
     <input id="email" type="email" placeholder="Admin email" required>
     <input id="password" type="password" placeholder="Password" required>
-    <button>Login</button>
+    <button id="loginButton" type="submit">Login</button>
     <p id="loginMessage" class="message"></p>
   </form>
-</div>
+</section>
 
-<div id="dashboard" class="hidden">
-<header>
-  <div><h1>🙏 Admin Dashboard</h1><small id="account"></small></div>
-  <button id="logout" class="secondary">Logout</button>
-</header>
-
+<section id="dashboard" class="hidden">
+<header><div><h1>🙏 Admin Dashboard</h1><small id="account"></small></div><button id="logout" class="secondary">Logout</button></header>
 <main>
-<section class="card">
-  <div class="head"><h2>📅 Events</h2><button id="addEvent">+ Add Event</button></div>
-  <form id="eventForm" class="hidden grid">
-    <input type="hidden" id="eventId">
-    <label>Title<input id="eventTitle" required></label>
-    <label>Date<input id="eventDate" type="date" required></label>
-    <label>Time<input id="eventTime" type="time"></label>
-    <label>Location<input id="eventLocation"></label>
-    <label class="full">Description<textarea id="eventDescription"></textarea></label>
-    <div class="actions full"><button>Save Event</button><button type="button" class="secondary" id="cancelEvent">Cancel</button></div>
-    <p id="eventMessage" class="message full"></p>
-  </form>
-  <div id="events"></div>
-</section>
+<section class="card"><div class="head"><h2>📅 Events</h2><button id="addEvent">+ Add Event</button></div>
+<form id="eventForm" class="hidden grid"><input type="hidden" id="eventId">
+<label>Title<input id="eventTitle" required></label><label>Date<input id="eventDate" type="date" required></label>
+<label>Time<input id="eventTime" type="time"></label><label>Location<input id="eventLocation"></label>
+<label class="full">Description<textarea id="eventDescription"></textarea></label>
+<div class="actions full"><button type="submit">Save Event</button><button type="button" class="secondary" id="cancelEvent">Cancel</button></div>
+<p id="eventMessage" class="message full"></p></form><div id="events"></div></section>
 
-<section class="card">
-  <div class="head"><h2>🪔 Aarti</h2><button id="addAarti">+ Add Aarti</button></div>
-  <form id="aartiForm" class="hidden grid">
-    <input type="hidden" id="aartiId">
-    <label>Date<input id="aartiDate" type="date" required></label>
-    <label>Whose Aarti?<input id="aartiPerson" required></label>
-    <label>Time<input id="aartiTime" type="time"></label>
-    <label class="full">Notes<textarea id="aartiNotes"></textarea></label>
-    <div class="actions full"><button>Save Aarti</button><button type="button" class="secondary" id="cancelAarti">Cancel</button></div>
-    <p id="aartiMessage" class="message full"></p>
-  </form>
-  <div id="aartis"></div>
-</section>
+<section class="card"><div class="head"><h2>🪔 Aarti</h2><button id="addAarti">+ Add Aarti</button></div>
+<form id="aartiForm" class="hidden grid"><input type="hidden" id="aartiId">
+<label>Date<input id="aartiDate" type="date" required></label><label>Whose Aarti?<input id="aartiPerson" required></label>
+<label>Time<input id="aartiTime" type="time"></label><label class="full">Notes<textarea id="aartiNotes"></textarea></label>
+<div class="actions full"><button type="submit">Save Aarti</button><button type="button" class="secondary" id="cancelAarti">Cancel</button></div>
+<p id="aartiMessage" class="message full"></p></form><div id="aartis"></div></section>
 
-<section class="card">
-  <div class="head"><h2>💰 Vargani</h2><button id="addDonation">+ Add Donation</button></div>
-  <div class="stats">
-    <div><span>Total Vargani</span><strong id="totalVargani">₹0.00</strong></div>
-    <div><span>Total Expenses</span><strong id="totalExpenses">₹0.00</strong></div>
-    <div class="remaining"><span>Remaining Vargani</span><strong id="remaining">₹0.00</strong></div>
-  </div>
-  <form id="donationForm" class="hidden grid">
-    <input type="hidden" id="donationId">
-    <label>Donor Name<input id="donorName" required></label>
-    <label>Mobile<input id="donorMobile"></label>
-    <label>Amount (₹)<input id="donorAmount" type="number" min="0" step="0.01" required></label>
-    <label>Payment Mode<select id="paymentMode"><option>UPI/PhonePe</option><option>Cash</option><option>Bank Transfer</option><option>Other</option></select></label>
-    <label>Date<input id="donationDate" type="date" required></label>
-    <label class="full">Notes<textarea id="donationNotes"></textarea></label>
-    <div class="actions full"><button>Save Donation</button><button type="button" class="secondary" id="cancelDonation">Cancel</button></div>
-    <p id="donationMessage" class="message full"></p>
-  </form>
-  <div id="donations"></div>
-</section>
+<section class="card"><div class="head"><h2>💰 Vargani</h2><button id="addDonation">+ Add Donation</button></div>
+<div class="stats"><div><span>Total Vargani</span><strong id="totalVargani">₹0.00</strong></div>
+<div><span>Total Expenses</span><strong id="totalExpenses">₹0.00</strong></div>
+<div class="remaining"><span>Remaining Vargani</span><strong id="remaining">₹0.00</strong></div></div>
+<form id="donationForm" class="hidden grid"><input type="hidden" id="donationId">
+<label>Donor Name<input id="donorName" required></label><label>Mobile<input id="donorMobile"></label>
+<label>Amount (₹)<input id="donorAmount" type="number" min="0" step="0.01" required></label>
+<label>Payment Mode<select id="paymentMode"><option>UPI/PhonePe</option><option>Cash</option><option>Bank Transfer</option><option>Other</option></select></label>
+<label>Date<input id="donationDate" type="date" required></label><label class="full">Notes<textarea id="donationNotes"></textarea></label>
+<div class="actions full"><button type="submit">Save Donation</button><button type="button" class="secondary" id="cancelDonation">Cancel</button></div>
+<p id="donationMessage" class="message full"></p></form><div id="donations"></div></section>
 
-<section class="card">
-  <div class="head"><h2>🛒 Expenses</h2><button id="addExpense">+ Add Expense</button></div>
-  <form id="expenseForm" class="hidden grid">
-    <input type="hidden" id="expenseId">
-    <label>Item / Expense<input id="expenseItem" required></label>
-    <label>Amount (₹)<input id="expenseAmount" type="number" min="0" step="0.01" required></label>
-    <label>Date<input id="expenseDate" type="date" required></label>
-    <label class="full">Notes<textarea id="expenseNotes"></textarea></label>
-    <div class="actions full"><button>Save Expense</button><button type="button" class="secondary" id="cancelExpense">Cancel</button></div>
-    <p id="expenseMessage" class="message full"></p>
-  </form>
-  <div id="expenses"></div>
-</section>
+<section class="card"><div class="head"><h2>🛒 Expenses</h2><button id="addExpense">+ Add Expense</button></div>
+<form id="expenseForm" class="hidden grid"><input type="hidden" id="expenseId">
+<label>Item / Expense<input id="expenseItem" required></label><label>Amount (₹)<input id="expenseAmount" type="number" min="0" step="0.01" required></label>
+<label>Date<input id="expenseDate" type="date" required></label><label class="full">Notes<textarea id="expenseNotes"></textarea></label>
+<div class="actions full"><button type="submit">Save Expense</button><button type="button" class="secondary" id="cancelExpense">Cancel</button></div>
+<p id="expenseMessage" class="message full"></p></form><div id="expenses"></div></section>
 </main>
-</div>
-
+</section>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="admin.js"></script>
 </body>
