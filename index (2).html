@@ -79,17 +79,6 @@ function escapeHtml(value) {
 }
 
 
-async function loadPublicAarti() {
-  const container=document.getElementById("aarti-public-list");
-  const today = new Date().toISOString().slice(0,10);
-  const {data,error}=await supabaseClient.from("aarti").select("*").eq("aarti_date",today).order("aarti_time",{ascending:true});
-  if(error){console.error("Could not load Aarti:",error);container.innerHTML='<div class="card"><b>Aarti</b><p>Details will be announced.</p></div>';return;}
-  if(!data || !data.length){container.innerHTML='<div class="card"><b>Today’s Aarti will be announced soon.</b></div>';return;}
-  container.innerHTML=data.map(x=>`<div class="card"><b>🪔 ${escapeHtml(x.person)}</b>
-    ${x.aarti_time?`<p>🕐 ${escapeHtml(x.aarti_time)}</p>`:""}
-    ${x.notes?`<p>${escapeHtml(x.notes)}</p>`:""}</div>`).join("");
-}
-
 async function loadPublicEvents() {
   const container = document.getElementById("events-list");
   const { data, error } = await supabaseClient
