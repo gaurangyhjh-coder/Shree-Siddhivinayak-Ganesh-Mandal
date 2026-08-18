@@ -38,7 +38,6 @@
   </div>
 </section>
 
-
 <section id="aarti" class="section">
   <h2>🪔 Aarti</h2>
   <div class="cards" id="aarti-public-list">
@@ -63,10 +62,11 @@
   <h2>📍 Contact Us</h2>
   <p><b>Mandal:</b> Shree Siddhivinayak Ganesh Mitra Mandal</p>
   <p><b>Location:</b> Sai Nagar, Jalgaon</p>
-  <p><b>Phone:</b> +919604492307</p>
+  <p><b>Phone:</b> Add your public contact number</p>
 </section>
 
 <footer>© 2026 Shree Siddhivinayak Ganesh Mitra Mandal · Sai Nagar, Jalgaon</footer>
+
 <script>
 const SUPABASE_URL = "https://brfegowczdarhljtmxtl.supabase.co";
 const SUPABASE_KEY = "sb_publishable_r-f0TfqlnBV2gHNK0ejZwA_ZMuhKz58";
@@ -80,28 +80,17 @@ function escapeHtml(value) {
 
 function formatTime12(time) {
   if (!time) return "";
-  const parts = String(time).split(":");
-  const h = Number(parts[0]);
-  const m = parts[1] ?? "00";
+  const [hours, minutes] = String(time).split(":");
+  const h = Number(hours);
   const suffix = h >= 12 ? "PM" : "AM";
   const hour12 = h % 12 || 12;
-  return `${hour12}:${m} ${suffix}`;
-}
-
-
-async function loadPublicAarti() {
-  const container=document.getElementById("aarti-public-list");
-  const today = new Date().toISOString().slice(0,10);
-  const {data,error}=await supabaseClient.from("aarti").select("*").eq("aarti_date",today).order("aarti_time",{ascending:true});
-  if(error){console.error("Could not load Aarti:",error);container.innerHTML='<div class="card"><b>Aarti</b><p>Details will be announced.</p></div>';return;}
-  if(!data || !data.length){container.innerHTML='<div class="card"><b>Today’s Aarti will be announced soon.</b></div>';return;}
-  container.innerHTML=data.map(x=>`<div class="card"><b>🪔 ${escapeHtml(x.person_name)}</b>
-    ${x.aarti_time?`<p>🕐 ${formatTime12(x.aarti_time)}</p>`:""}
-    ${x.notes?`<p>${escapeHtml(x.notes)}</p>`:""}</div>`).join("");
+  return `${hour12}:${minutes} ${suffix}`;
 }
 
 async function loadPublicEvents() {
   const container = document.getElementById("events-list");
+  if (!container) return;
+
   const { data, error } = await supabaseClient
     .from("events")
     .select("*")
@@ -120,18 +109,56 @@ async function loadPublicEvents() {
   }
 
   container.innerHTML = data.map(event => {
-    const date = event.event_date ? new Date(event.event_date + "T00:00:00").toLocaleDateString("en-IN", {
-      day: "numeric", month: "long", year: "numeric"
-    }) : "";
-    const time = event.event_time ? " · " + formatTime12(event.event_time) : "";
+    const title = event.Title ?? event.title ?? "";
+    const date = event.event_date
+      ? new Date(event.event_date + "T00:00:00").toLocaleDateString("en-IN", {
+          day: "numeric", month: "long", year: "numeric"
+        })
+      : "";
+    const time = event.event_time
+      ? " · " + formatTime12(event.event_time)
+      : "";
     return `
       <div class="card">
-        <b>${escapeHtml(event.Title)}</b>
+        <b>${escapeHtml(title)}</b>
         <p>📅 ${escapeHtml(date)}${time}</p>
         ${event.location ? `<p>📍 ${escapeHtml(event.location)}</p>` : ""}
         ${event.description ? `<p>${escapeHtml(event.description)}</p>` : ""}
       </div>`;
   }).join("");
+}
+
+async function loadPublicAarti() {
+  const container = document.getElementById("aarti-public-list");
+  if (!container) return;
+
+  // Use local calendar date so the "today" result matches the user's day.
+  const today = new Date().toLocaleDateString("en-CA");
+
+  const { data, error } = await supabaseClient
+    .from("aarti")
+    .select("*")
+    .eq("aarti_date", today)
+    .order("aarti_time", { ascending: true });
+
+  if (error) {
+    console.error("Could not load Aarti:", error);
+    container.innerHTML = '<div class="card"><b>Aarti</b><p>Details will be announced.</p></div>';
+    return;
+  }
+
+  if (!data || !data.length) {
+    container.innerHTML = '<div class="card"><b>Today’s Aarti will be announced soon.</b></div>';
+    return;
+  }
+
+  container.innerHTML = data.map(x => `
+    <div class="card">
+      <b>🪔 ${escapeHtml(x.person_name ?? x.person ?? "")}</b>
+      ${x.aarti_time ? `<p>🕐 ${formatTime12(x.aarti_time)}</p>` : ""}
+      ${x.notes ? `<p>${escapeHtml(x.notes)}</p>` : ""}
+    </div>
+  `).join("");
 }
 
 loadPublicEvents();
