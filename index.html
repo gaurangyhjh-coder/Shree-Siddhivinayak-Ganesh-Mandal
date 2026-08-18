@@ -80,12 +80,15 @@ function escapeHtml(value) {
 
 function formatTime12(time) {
   if (!time) return "";
-  const [hours, minutes] = time.split(":");
-  const h = Number(hours);
+  const parts = String(time).split(":");
+  const h = Number(parts[0]);
+  const m = parts[1] ?? "00";
   const suffix = h >= 12 ? "PM" : "AM";
   const hour12 = h % 12 || 12;
-  return ${hour12}:${minutes} ${suffix};
+  return `${hour12}:${m} ${suffix}`;
 }
+
+
 async function loadPublicAarti() {
   const container=document.getElementById("aarti-public-list");
   const today = new Date().toISOString().slice(0,10);
@@ -120,7 +123,7 @@ async function loadPublicEvents() {
     const date = event.event_date ? new Date(event.event_date + "T00:00:00").toLocaleDateString("en-IN", {
       day: "numeric", month: "long", year: "numeric"
     }) : "";
-    const time = event.event_time ? " · " + escapeHtml(event.event_time) : "";
+    const time = event.event_time ? " · " + formatTime12(event.event_time) : "";
     return `
       <div class="card">
         <b>${escapeHtml(event.Title)}</b>
