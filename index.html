@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shree Siddhivinayak Ganesh Mitra Mandal | Sai Nagar, Jalgaon</title>
+<title>Shree Siddhivinayak Ganesh Mitra Mandal | Sai Nagar, Behind Taluka Police Station, Jalgaon</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -47,7 +47,7 @@
 
 <section id="donation" class="section donation-section">
   <h2>💰 Donation / Vargani</h2>
-  <p>Support Shree Siddhivinayak Ganesh Mitra Mandal and help us organize Ganesh Utsav and community activities.</p>
+  <p>Support Shree Siddhivinayak Ganesh Mitra Mandal and help us organize Ganeshotsav and community activities.</p>
   <div class="donation-card">
     <div>
       <h3>Scan & Pay with PhonePe</h3>
@@ -65,7 +65,7 @@
   <p><b>Phone:</b> Add your public contact number</p>
 </section>
 
-<footer>© 2026 Shree Siddhivinayak Ganesh Mitra Mandal · Sai Nagar, Jalgaon</footer>
+<footer>© 2026 Shree Siddhivinayak Ganesh Mitra Mandal · Sai Nagar, Behind Taluka Police Station, Jalgaon</footer>
 
 <script>
 const SUPABASE_URL = "https://brfegowczdarhljtmxtl.supabase.co";
@@ -137,7 +137,7 @@ async function loadPublicAarti() {
 
   const { data, error } = await supabaseClient
     .from("aarti")
-    .select("aarti_date,person_name,person,aarti_time,notes")
+    .select("*")
     .eq("aarti_date", today)
     .order("aarti_time", { ascending: true });
 
