@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shree Siddhivinayak Ganesh Mitra Mandal | Sai Nagar,Behnid Taluka Police station, Jalgaon</title>
+<title>Shree Siddhivinayak Ganesh Mitra Mandal | Sai Nagar, Jalgaon</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -21,18 +21,18 @@
   <div>
     <p class="tag">🚩 गणपती बाप्पा मोरया 🚩</p>
     <h1>Shree Siddhivinayak<br>Ganesh Mitra Mandal</h1>
-    <p class="location">📍 Sai Nagar,,Behnid Taluka Police station, Jalgaon</p>
+    <p class="location">📍 Sai Nagar, Behind Taluka Police Station, Jalgaon</p>
     <a class="btn" href="#donation">Donate / Vargani</a>
   </div>
 </section>
 
 <section id="about" class="section">
   <h2>🙏 Welcome to Our Mandal</h2>
-  <p>Welcome to Shree Siddhivinayak Ganesh Mitra Mandal, Sai Nagar,,Behnid Taluka Police station, Jalgaon. This website shares our Ganeshutsav programs, announcements and donation information.</p>
+  <p>Welcome to Shree Siddhivinayak Ganesh Mitra Mandal, Sai Nagar, Behind Taluka Police Station, Jalgaon. This website shares our Ganesh Utsav programs, announcements and donation information.</p>
 </section>
 
 <section id="programs" class="section alt">
-  <h2>📅 Ganeshutsav Programs</h2>
+  <h2>📅 Ganesh Utsav Programs</h2>
   <div class="cards" id="events-list">
     <div class="card"><b>Loading programs...</b><p>Please wait.</p></div>
   </div>
@@ -47,7 +47,7 @@
 
 <section id="donation" class="section donation-section">
   <h2>💰 Donation / Vargani</h2>
-  <p>Support Shree Siddhivinayak Ganesh Mitra Mandal and help us organize Ganeshotsav and community activities.</p>
+  <p>Support Shree Siddhivinayak Ganesh Mitra Mandal and help us organize Ganesh Utsav and community activities.</p>
   <div class="donation-card">
     <div>
       <h3>Scan & Pay with PhonePe</h3>
@@ -61,8 +61,8 @@
 <section id="contact" class="section alt">
   <h2>📍 Contact Us</h2>
   <p><b>Mandal:</b> Shree Siddhivinayak Ganesh Mitra Mandal</p>
-  <p><b>Location:</b> Sai Nagar,,Behnid Taluka Police station, Jalgaon</p>
-  <p><b>Phone:</b> +919765965980</p>
+  <p><b>Location:</b> Sai Nagar, Behind Taluka Police Station, Jalgaon</p>
+  <p><b>Phone:</b> Add your public contact number</p>
 </section>
 
 <footer>© 2026 Shree Siddhivinayak Ganesh Mitra Mandal · Sai Nagar, Jalgaon</footer>
@@ -137,7 +137,7 @@ async function loadPublicAarti() {
 
   const { data, error } = await supabaseClient
     .from("aarti")
-    .select("*")
+    .select("aarti_date,person_name,person,aarti_time,notes")
     .eq("aarti_date", today)
     .order("aarti_time", { ascending: true });
 
